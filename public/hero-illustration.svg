@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 320" fill="none" aria-hidden="true">
+  <!-- Browser window mockup -->
+  <rect width="560" height="320" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2"/>
+  <rect width="560" height="40" rx="12" fill="white" stroke="#e2e8f0"/>
+  <rect x="12" y="12" width="12" height="12" rx="6" fill="#94a3b8"/>
+  <rect x="32" y="12" width="12" height="12" rx="6" fill="#cbd5e1"/>
+  <rect x="52" y="12" width="12" height="12" rx="6" fill="#cbd5e1"/>
+  <rect x="180" y="14" width="200" height="8" rx="4" fill="#e2e8f0"/>
+  <!-- Content: simulator mock -->
+  <rect x="32" y="60" width="160" height="32" rx="6" fill="white" stroke="#e2e8f0"/>
+  <rect x="32" y="100" width="120" height="24" rx="4" fill="#f1f5f9"/>
+  <rect x="32" y="132" width="200" height="24" rx="4" fill="#f1f5f9"/>
+  <rect x="32" y="164" width="160" height="24" rx="4" fill="#f1f5f9"/>
+  <!-- Chart/result area -->
+  <rect x="260" y="60" width="280" height="180" rx="8" fill="white" stroke="#e2e8f0"/>
+  <path d="M280 200 L320 160 L360 180 L400 120 L440 140 L480 100 L520 80" stroke="#3b82f6" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M280 200 L320 160 L360 180 L400 120 L440 140 L480 100 L520 80 L520 200 Z" fill="#3b82f6" fill-opacity="0.1"/>
+  <!-- Result highlight -->
+  <rect x="280" y="220" width="120" height="36" rx="6" fill="#f97316"/>
+  <text x="340" y="242" text-anchor="middle" fill="white" font-family="system-ui" font-size="14" font-weight="bold">R$ 847</text>
+  <rect x="420" y="220" width="100" height="36" rx="6" fill="#2563eb"/>
+  <text x="470" y="242" text-anchor="middle" fill="white" font-family="system-ui" font-size="12">L�quido</text>
+</svg>
