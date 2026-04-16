@@ -1,6 +1,6 @@
 const BASE_URL = "https://escalapreco.com.br";
-const APP_LOGIN = "https://app.escalapreco.com.br/login";
-const APP_REGISTRO = "https://app.escalapreco.com.br/registro";
+const APP_LOGIN = "https://app.escalapreco.com.br/auth/login";
+const APP_REGISTRO = "https://app.escalapreco.com.br/auth/register";
 
 export const site = {
   name: "Escala Preço",
