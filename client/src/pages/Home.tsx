@@ -1,3 +1,4 @@
+import { MarketingLayout } from "@/components/MarketingLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowRight, CheckCircle2, Zap, TrendingUp, Lock, BarChart3, Upload, Eye, Lightbulb } from "lucide-react";
@@ -13,60 +14,78 @@ import { toast } from "sonner";
  * - Layout: Assimétrico, seções alternadas, espaço em branco generoso
  */
 
+const N8N_LEAD_WEBHOOK_DEFAULT =
+  "https://n8n.srv879986.hstgr.cloud/webhook/novo-lead-ep";
+
+function getLeadWebhookUrl(): string {
+  return (
+    import.meta.env.VITE_N8N_LEAD_WEBHOOK_URL?.trim() || N8N_LEAD_WEBHOOK_DEFAULT
+  );
+}
+
 export default function Home() {
+  const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
+  const [telefone, setTelefone] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleWaitlistSubmit = (e: React.FormEvent) => {
+  const handleWaitlistSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) {
-      toast.error("Por favor, insira seu email");
+    const nomeTrim = nome.trim();
+    const emailTrim = email.trim();
+    const telefoneTrim = telefone.trim();
+
+    if (!nomeTrim) {
+      toast.error("Por favor, informe seu nome");
       return;
     }
+    if (!emailTrim) {
+      toast.error("Por favor, informe seu e-mail");
+      return;
+    }
+    if (!telefoneTrim) {
+      toast.error("Por favor, informe seu telefone");
+      return;
+    }
+    if (telefoneTrim.replace(/\D/g, "").length < 8) {
+      toast.error("Informe um telefone válido (com DDD)");
+      return;
+    }
+
+    const url = getLeadWebhookUrl();
     setIsSubmitting(true);
-    // Simular envio
-    setTimeout(() => {
-      toast.success("Você foi adicionado à lista de espera! 🎉");
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nome: nomeTrim,
+          email: emailTrim,
+          telefone: telefoneTrim,
+        }),
+      });
+
+      if (!res.ok) {
+        const text = await res.text().catch(() => "");
+        throw new Error(text || `Erro ${res.status}`);
+      }
+
+      toast.success("Você foi adicionado à lista de espera!");
+      setNome("");
       setEmail("");
+      setTelefone("");
+    } catch (err) {
+      console.error(err);
+      toast.error(
+        "Não foi possível enviar agora. Tente de novo em instantes ou fale conosco pelo contato.",
+      );
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* HEADER/NAVIGATION */}
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
-        <div className="container flex items-center justify-between py-3">
-          <div className="flex items-center gap-3">
-            <img 
-              src="/logo.png" 
-              alt="Escala Preço" 
-              className="h-10 w-auto"
-            />
-          </div>
-          <nav className="hidden md:flex items-center gap-8">
-            <a href="#problema" className="text-gray-600 hover:text-gray-900 transition">Problema</a>
-            <a href="#solucao" className="text-gray-600 hover:text-gray-900 transition">Solução</a>
-            <a href="#beneficios" className="text-gray-600 hover:text-gray-900 transition">Benefícios</a>
-            <a href="#funcionalidades" className="text-gray-600 hover:text-gray-900 transition">Funcionalidades</a>
-          </nav>
-          <div className="flex items-center gap-3">
-            <a 
-              href="https://app.escalapreco.com.br/auth/login" 
-              className="px-4 py-2 text-gray-700 font-medium hover:text-gray-900 transition"
-            >
-              Entrar
-            </a>
-            <a 
-              href="https://app.escalapreco.com.br/auth/register" 
-              className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-lg transition"
-            >
-              Criar Conta
-            </a>
-          </div>
-        </div>
-      </header>
-
+    <MarketingLayout>
       {/* HERO SECTION */}
       <section className="relative overflow-hidden pt-16 pb-24 md:pt-24 md:pb-40">
         {/* Background Image */}
@@ -346,10 +365,34 @@ export default function Home() {
               <form onSubmit={handleWaitlistSubmit} className="space-y-4">
                 <div>
                   <Input
+                    type="text"
+                    name="nome"
+                    autoComplete="name"
+                    placeholder="Nome completo"
+                    value={nome}
+                    onChange={(e) => setNome(e.target.value)}
+                    className="h-12 rounded-lg border-2 border-gray-300 focus:border-purple-600 focus:ring-0 text-base"
+                  />
+                </div>
+                <div>
+                  <Input
                     type="email"
+                    name="email"
+                    autoComplete="email"
                     placeholder="seu@email.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    className="h-12 rounded-lg border-2 border-gray-300 focus:border-purple-600 focus:ring-0 text-base"
+                  />
+                </div>
+                <div>
+                  <Input
+                    type="tel"
+                    name="telefone"
+                    autoComplete="tel"
+                    placeholder="Telefone com DDD (ex.: 41999998888)"
+                    value={telefone}
+                    onChange={(e) => setTelefone(e.target.value)}
                     className="h-12 rounded-lg border-2 border-gray-300 focus:border-purple-600 focus:ring-0 text-base"
                   />
                 </div>
@@ -368,57 +411,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* FOOTER */}
-      <footer className="bg-gray-900 text-gray-300 py-12">
-        <div className="container">
-          <div className="grid md:grid-cols-4 gap-8 mb-8">
-            <div>
-              <img 
-              src="/logo.png" 
-              alt="Escala Preço" 
-              className="h-8 w-auto mb-4"
-            />
-              <p className="text-sm text-gray-400">
-                Automação de precificação para Mercado Livre
-              </p>
-            </div>
-            <div>
-              <h4 className="font-semibold text-white mb-4">Produto</h4>
-              <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-white transition">Funcionalidades</a></li>
-                <li><a href="#" className="hover:text-white transition">Preços</a></li>
-                <li><a href="#" className="hover:text-white transition">Segurança</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold text-white mb-4">Empresa</h4>
-              <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-white transition">Sobre</a></li>
-                <li><a href="#" className="hover:text-white transition">Blog</a></li>
-                <li><a href="#" className="hover:text-white transition">Contato</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold text-white mb-4">Legal</h4>
-              <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-white transition">Privacidade</a></li>
-                <li><a href="#" className="hover:text-white transition">Termos</a></li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
-            <p className="text-sm text-gray-400">
-              © 2026 Escala Preço. Todos os direitos reservados.
-            </p>
-            <div className="flex gap-6 mt-4 md:mt-0">
-              <a href="#" className="text-gray-400 hover:text-white transition">Twitter</a>
-              <a href="#" className="text-gray-400 hover:text-white transition">LinkedIn</a>
-              <a href="#" className="text-gray-400 hover:text-white transition">Instagram</a>
-            </div>
-          </div>
-        </div>
-      </footer>
-    </div>
+    </MarketingLayout>
   );
 }
