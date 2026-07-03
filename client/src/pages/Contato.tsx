@@ -30,17 +30,20 @@ export default function Contato() {
   return (
     <MarketingLayout>
       <div className="container max-w-3xl py-16 md:py-24">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Contato</h1>
-        <p className="text-lg text-gray-600 mb-10 leading-relaxed">
+        <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Contato</h1>
+        <p className="text-lg text-muted-foreground mb-10 leading-relaxed">
           Envie sua dúvida, sugestão ou proposta. Responderemos o quanto antes.
         </p>
 
-        <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
-          <div className="flex items-start gap-3 mb-8 text-gray-700">
-            <Mail className="h-5 w-5 text-blue-600 shrink-0 mt-0.5" />
+        <div className="rounded-2xl border border-border bg-card p-8">
+          <div className="flex items-start gap-3 mb-8 text-muted-foreground">
+            <Mail className="h-5 w-5 text-[#2b80ff] shrink-0 mt-0.5" />
             <div>
-              <p className="font-medium text-gray-900">E-mail</p>
-              <a href="mailto:contato@escalapreco.com.br" className="text-blue-600 hover:underline">
+              <p className="font-medium text-foreground">E-mail</p>
+              <a
+                href="mailto:contato@escalapreco.com.br"
+                className="text-[#2b80ff] hover:text-[#ff8a00] transition"
+              >
                 contato@escalapreco.com.br
               </a>
             </div>
@@ -48,7 +51,7 @@ export default function Contato() {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label htmlFor="contato-nome" className="block text-sm font-medium text-gray-700 mb-1.5">
+              <label htmlFor="contato-nome" className="block text-sm font-medium text-foreground mb-1.5">
                 Nome (opcional)
               </label>
               <Input
@@ -56,11 +59,11 @@ export default function Contato() {
                 value={nome}
                 onChange={(e) => setNome(e.target.value)}
                 placeholder="Seu nome"
-                className="h-11"
+                className="h-11 border-border bg-background focus:border-[#2b80ff] focus:ring-[#2b80ff]/20"
               />
             </div>
             <div>
-              <label htmlFor="contato-email" className="block text-sm font-medium text-gray-700 mb-1.5">
+              <label htmlFor="contato-email" className="block text-sm font-medium text-foreground mb-1.5">
                 E-mail
               </label>
               <Input
@@ -70,11 +73,11 @@ export default function Contato() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="seu@email.com"
-                className="h-11"
+                className="h-11 border-border bg-background focus:border-[#2b80ff] focus:ring-[#2b80ff]/20"
               />
             </div>
             <div>
-              <label htmlFor="contato-msg" className="block text-sm font-medium text-gray-700 mb-1.5">
+              <label htmlFor="contato-msg" className="block text-sm font-medium text-foreground mb-1.5">
                 Mensagem
               </label>
               <textarea
@@ -84,17 +87,17 @@ export default function Contato() {
                 onChange={(e) => setMensagem(e.target.value)}
                 rows={5}
                 placeholder="Como podemos ajudar?"
-                className="w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="w-full rounded-md border border-border bg-background px-3 py-2 text-base text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2b80ff]/30"
               />
             </div>
             <Button
               type="submit"
               disabled={enviando}
-              className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+              className="w-full sm:w-auto brand-gradient hover:opacity-90 text-white"
             >
               {enviando ? "Enviando..." : "Enviar mensagem"}
             </Button>
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-muted-foreground">
               Este formulário é uma demonstração: ajuste o envio para seu backend ou serviço de e-mail
               quando estiver pronto.
             </p>

@@ -4,38 +4,43 @@ type MarketingLayoutProps = {
   children: React.ReactNode;
 };
 
+const navLinks = [
+  { href: "/#calculadora", label: "Calculadora" },
+  { href: "/#como-funciona", label: "Como funciona" },
+  { href: "/#recursos", label: "Recursos" },
+  { href: "/#ecossistema", label: "Ecossistema" },
+  { href: "/#para-quem", label: "Para quem é" },
+];
+
 export function MarketingLayout({ children }: MarketingLayoutProps) {
   return (
-    <div className="min-h-screen bg-white flex flex-col">
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+    <div className="min-h-screen bg-background text-foreground flex flex-col">
+      <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="container flex items-center justify-between py-3">
           <Link href="/" className="flex items-center gap-3">
             <img src="/logo.png" alt="Escala Preço" className="h-10 w-auto" />
           </Link>
-          <nav className="hidden md:flex items-center gap-8">
-            <a href="/#problema" className="text-gray-600 hover:text-gray-900 transition">
-              Problema
-            </a>
-            <a href="/#solucao" className="text-gray-600 hover:text-gray-900 transition">
-              Solução
-            </a>
-            <a href="/#beneficios" className="text-gray-600 hover:text-gray-900 transition">
-              Benefícios
-            </a>
-            <a href="/#funcionalidades" className="text-gray-600 hover:text-gray-900 transition">
-              Funcionalidades
-            </a>
+          <nav className="hidden lg:flex items-center gap-6">
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="text-sm text-muted-foreground hover:text-foreground transition"
+              >
+                {link.label}
+              </a>
+            ))}
           </nav>
           <div className="flex items-center gap-3">
             <a
               href="https://app.escalapreco.com.br/auth/login"
-              className="px-4 py-2 text-gray-700 font-medium hover:text-gray-900 transition"
+              className="px-4 py-2 text-sm text-muted-foreground font-medium hover:text-foreground transition"
             >
               Entrar
             </a>
             <a
               href="https://app.escalapreco.com.br/auth/register"
-              className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-lg transition"
+              className="px-4 py-2 text-sm brand-gradient hover:opacity-90 text-white font-medium rounded-lg transition"
             >
               Criar Conta
             </a>
@@ -45,79 +50,88 @@ export function MarketingLayout({ children }: MarketingLayoutProps) {
 
       <main className="flex-1">{children}</main>
 
-      <footer className="bg-gray-900 text-gray-300 py-12">
+      <footer className="border-t border-border bg-card py-12">
         <div className="container">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
               <Link href="/" className="inline-block">
                 <img src="/logo.png" alt="Escala Preço" className="h-8 w-auto mb-4" />
               </Link>
-              <p className="text-sm text-gray-400">Automação de precificação para Mercado Livre</p>
+              <p className="text-sm text-muted-foreground">
+                Calculadora de preços para Mercado Livre com margem líquida real
+              </p>
             </div>
             <div>
-              <h4 className="font-semibold text-white mb-4">Produto</h4>
-              <ul className="space-y-2 text-sm">
+              <h4 className="font-semibold text-foreground mb-4">Produto</h4>
+              <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
-                  <a href="/#funcionalidades" className="hover:text-white transition">
-                    Funcionalidades
+                  <a href="/#calculadora" className="hover:text-foreground transition">
+                    Calculadora
                   </a>
                 </li>
                 <li>
-                  <a href="/#waitlist-form" className="hover:text-white transition">
-                    Lista de espera
+                  <a href="/#recursos" className="hover:text-foreground transition">
+                    Recursos
                   </a>
                 </li>
                 <li>
-                  <a href="/#beneficios" className="hover:text-white transition">
-                    Benefícios
+                  <a href="/#ecossistema" className="hover:text-foreground transition">
+                    Ecossistema
+                  </a>
+                </li>
+                <li>
+                  <a href="/#waitlist-form" className="hover:text-foreground transition">
+                    Cadastrar
                   </a>
                 </li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold text-white mb-4">Empresa</h4>
-              <ul className="space-y-2 text-sm">
+              <h4 className="font-semibold text-foreground mb-4">Empresa</h4>
+              <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
-                  <Link href="/sobre" className="hover:text-white transition">
+                  <Link href="/sobre" className="hover:text-foreground transition">
                     Sobre
                   </Link>
                 </li>
                 <li>
-                  <Link href="/blog" className="hover:text-white transition">
+                  <Link href="/blog" className="hover:text-foreground transition">
                     Blog
                   </Link>
                 </li>
                 <li>
-                  <Link href="/contato" className="hover:text-white transition">
+                  <Link href="/contato" className="hover:text-foreground transition">
                     Contato
                   </Link>
                 </li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold text-white mb-4">Legal</h4>
-              <ul className="space-y-2 text-sm">
+              <h4 className="font-semibold text-foreground mb-4">Legal</h4>
+              <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
-                  <Link href="/privacidade" className="hover:text-white transition">
+                  <Link href="/privacidade" className="hover:text-foreground transition">
                     Privacidade
                   </Link>
                 </li>
                 <li>
-                  <Link href="/termos" className="hover:text-white transition">
+                  <Link href="/termos" className="hover:text-foreground transition">
                     Termos
                   </Link>
                 </li>
               </ul>
             </div>
           </div>
-          <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
-            <p className="text-sm text-gray-400">© 2026 Escala Preço. Todos os direitos reservados.</p>
+          <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center">
+            <p className="text-sm text-muted-foreground">
+              © 2026 Escala Preço. Todos os direitos reservados.
+            </p>
             <div className="flex gap-6 mt-4 md:mt-0">
               <a
                 href="https://www.instagram.com/escalapreco"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition"
+                className="text-sm text-muted-foreground hover:text-foreground transition"
               >
                 Instagram
               </a>

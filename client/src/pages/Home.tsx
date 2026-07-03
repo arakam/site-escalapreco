@@ -1,18 +1,29 @@
 import { MarketingLayout } from "@/components/MarketingLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowRight, CheckCircle2, Zap, TrendingUp, Lock, BarChart3, Upload, Eye, Lightbulb } from "lucide-react";
+import {
+  ArrowRight,
+  BarChart3,
+  Calculator,
+  CheckCircle2,
+  ChevronRight,
+  FileSpreadsheet,
+  Filter,
+  Link2,
+  Package,
+  Percent,
+  RefreshCw,
+  Shield,
+  ShoppingBag,
+  Sparkles,
+  Tag,
+  TrendingUp,
+  Upload,
+  Wallet,
+  Zap,
+} from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-
-/**
- * Design Philosophy: Minimalismo Corporativo com Gradientes Dinâmicos
- * - Cores: Azul profundo (#1e40af) + Roxo vibrante (#7c3aed)
- * - Tipografia: Poppins (headlines) + Inter (body)
- * - Componentes: Cards glassmorphism, gradientes animados, ícones geométricos
- * - Animações: Fade-in ao scroll, hover effects suaves
- * - Layout: Assimétrico, seções alternadas, espaço em branco generoso
- */
 
 const N8N_LEAD_WEBHOOK_DEFAULT =
   "https://n8n.srv879986.hstgr.cloud/webhook/novo-lead-ep";
@@ -22,6 +33,169 @@ function getLeadWebhookUrl(): string {
     import.meta.env.VITE_N8N_LEAD_WEBHOOK_URL?.trim() || N8N_LEAD_WEBHOOK_DEFAULT
   );
 }
+
+const badges = [
+  "Saiba quanto vai receber antes de mudar o preço no ML",
+  "Ajuste centenas de anúncios por margem, não por chute",
+  "Campanha ML com desconto certo — sem violar o mínimo de 5%",
+  "Custo, PMA e lucro no mesmo lugar que o catálogo",
+  "Simule à vontade; publique só quando quiser",
+];
+
+const tableColumns = [
+  { label: "Preço atual (ML)", desc: "Último preço sincronizado" },
+  { label: "Margem %", desc: "Margem líquida alvo — editável" },
+  { label: "Preço Calculado", desc: "Preço bruto simulado" },
+  { label: "Preço Final", desc: "Com arredondamento configurável" },
+  { label: "Vai Receber", desc: "Após taxa ML e frete" },
+  { label: "Lucro", desc: "Líquido real após custos" },
+  { label: "Taxa ML · Frete", desc: "Valores em R$ e %" },
+  { label: "Vendas 30d", desc: "Pedidos pagos recentes" },
+  { label: "Competitividade", desc: "Competitivo, Atenção ou Alto" },
+];
+
+const steps = [
+  {
+    num: "01",
+    title: "Conecte o Mercado Livre",
+    desc: "OAuth com uma ou mais contas e sincronize anúncios, preço, estoque e variações.",
+  },
+  {
+    num: "02",
+    title: "Cadastre custos nos produtos",
+    desc: "Custo, imposto, taxas, despesas fixas e PMA — a base do lucro real.",
+  },
+  {
+    num: "03",
+    title: "Simule na calculadora",
+    desc: "Ajuste Margem % ou Preço Calculado linha a linha ou em lote. Tudo recalcula na hora.",
+  },
+  {
+    num: "04",
+    title: "Publique quando estiver pronto",
+    desc: "Atualize preço no ML ou crie campanha promocional direto da seleção.",
+  },
+];
+
+const featureCards = [
+  {
+    icon: Calculator,
+    title: "Calculadora",
+    desc: "Simule preços para todo o catálogo. Edite margem ou preço; veja lucro, taxa ML, frete e quanto vai receber. Aplique no ML quando estiver pronto.",
+  },
+  {
+    icon: Wallet,
+    title: "Margem real",
+    desc: "Não é preço menos custo. É o que sobra depois de taxa ML, frete Mercado Líder, impostos e despesas.",
+  },
+  {
+    icon: Zap,
+    title: "Em massa",
+    desc: "Filtros, seleção múltipla, CSV e ações em lote. Dois cliques para atualizar preços ou criar campanha no Mercado Livre.",
+  },
+  {
+    icon: Shield,
+    title: "Sem surpresa",
+    desc: "Tudo é simulação até você confirmar. PMA e regras de campanha (mínimo 5% de desconto) são respeitados automaticamente.",
+  },
+];
+
+const differentials = [
+  {
+    icon: Percent,
+    title: "Margem alvo, não tentativa e erro",
+    desc: "Informe a margem líquida desejada (%) e o sistema resolve o preço — em uma linha ou em centenas de anúncios.",
+  },
+  {
+    icon: Wallet,
+    title: "Lucro de verdade",
+    desc: "Taxa ML por categoria, frete Mercado Líder, impostos, taxa extra e despesas fixas por unidade.",
+  },
+  {
+    icon: TrendingUp,
+    title: "Saiba quanto vai receber",
+    desc: "A coluna Vai Receber mostra o valor líquido após taxas e frete — o número que importa na operação.",
+  },
+  {
+    icon: Shield,
+    title: "Respeita seu piso (PMA)",
+    desc: "O preço calculado nunca fica abaixo do Preço Mínimo de Anúncio cadastrado no produto.",
+  },
+  {
+    icon: Filter,
+    title: "Filtros poderosos",
+    desc: "Busca, SKU, fornecedor, status, Full, tags, vendas 30d, lucratividade, custo e PMA.",
+  },
+  {
+    icon: FileSpreadsheet,
+    title: "Planilha quando precisar",
+    desc: "Importe e exporte CSV com preview e confirmação em lote. Exportação com 22 campos.",
+  },
+];
+
+const ecosystem = [
+  {
+    icon: Link2,
+    title: "Conexão Mercado Livre",
+    items: [
+      "OAuth com uma ou mais contas",
+      "Sincronização de anúncios, preço, estoque e tags",
+      "Reputação e Mercado Líder visíveis na configuração",
+    ],
+  },
+  {
+    icon: ShoppingBag,
+    title: "Anúncios",
+    items: [
+      "Importação em massa ou por MLB individual",
+      "Tabela completa do catálogo com filtros e CSV",
+      "Base para tudo que aparece na calculadora",
+    ],
+  },
+  {
+    icon: Package,
+    title: "Produtos",
+    items: [
+      "Custo, imposto %, taxa extra, despesas e PMA",
+      "Tags, fornecedor, dimensões e peso para frete",
+      "Importação/exportação CSV em lote",
+    ],
+  },
+  {
+    icon: Tag,
+    title: "Atacado",
+    items: [
+      "Preços por quantidade (tiers) por anúncio",
+      "Edição inline, rascunho vs salvo",
+      "Aplicar tiers direto no Mercado Livre",
+    ],
+  },
+  {
+    icon: Sparkles,
+    title: "Promoções",
+    items: [
+      "Promoções ativas e convites do ML",
+      "Lucro estimado por promoção com base no custo",
+      "Participar em promoções em lote",
+    ],
+  },
+  {
+    icon: BarChart3,
+    title: "Vendas & Dashboard",
+    items: [
+      "Pedidos dos últimos 30 dias com lucro por linha",
+      "Margem média, anúncios em risco e alertas clicáveis",
+      "Insights de top vendas, margem e risco",
+    ],
+  },
+];
+
+const personas = [
+  "Precificam em planilha ou anúncio a anúncio",
+  "Não sabem a margem líquida real após taxas e frete",
+  "Perdem tempo criando promoções e atacado manualmente",
+  "Querem ver vendas recentes junto com a margem na hora de decidir",
+];
 
 export default function Home() {
   const [nome, setNome] = useState("");
@@ -70,7 +244,7 @@ export default function Home() {
         throw new Error(text || `Erro ${res.status}`);
       }
 
-      toast.success("Você foi adicionado à lista de espera!");
+      toast.success("Cadastro recebido! Entraremos em contato em breve.");
       setNome("");
       setEmail("");
       setTelefone("");
@@ -86,235 +260,203 @@ export default function Home() {
 
   return (
     <MarketingLayout>
-      {/* HERO SECTION */}
-      <section className="relative overflow-hidden pt-16 pb-24 md:pt-24 md:pb-40">
-        {/* Background Image */}
-        <div 
-          className="absolute inset-0 z-0"
-          style={{
-            backgroundImage: "url('https://d2xsxph8kpxj0f.cloudfront.net/310419663031980743/88qXHLTs8SUnLzsyBRLKno/hero-background-iefTMQvgdS7Nys3rrv8NPw.webp')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
-        <div className="absolute inset-0 bg-white/5 z-0" />
+      {/* HERO */}
+      <section className="relative overflow-hidden pt-20 pb-28 md:pt-28 md:pb-36 section-glow">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(43,128,255,0.18),transparent)]" />
+        <div className="absolute top-1/4 -right-32 w-96 h-96 bg-[#ff8a00]/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 -left-32 w-80 h-80 bg-[#2b80ff]/10 rounded-full blur-3xl" />
 
         <div className="container relative z-10">
-          <div className="max-w-2xl">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight text-gray-900" style={{
-              textShadow: '0 4px 12px rgba(0, 0, 0, 0.15), 0 0 0 2px rgba(30, 64, 175, 0.1)',
-              WebkitTextStroke: '0.5px rgba(30, 64, 175, 0.2)'
-            }}>
-              Você está perdendo dinheiro no Mercado Livre e nem percebe.
+          <div className="max-w-3xl mx-auto text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-border bg-card/60 text-sm text-muted-foreground mb-8">
+              <Calculator className="w-4 h-4 text-[#2b80ff]" />
+              Calculadora de Preços para Mercado Livre
+            </div>
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+              Precifique com{" "}
+              <span className="brand-gradient-text">margem líquida real</span>
+              {" "}— em todo o catálogo
             </h1>
-            <p className="text-lg md:text-xl text-gray-100 mb-8 leading-relaxed font-medium drop-shadow-lg">
-              O Escala Preço automatiza sua precificação, protege sua margem e escala seus resultados — mesmo com centenas de anúncios.
+            <p className="text-lg md:text-xl text-muted-foreground mb-10 leading-relaxed max-w-2xl mx-auto">
+              Em uma única tabela, veja todo o catálogo sincronizado do Mercado Livre e simule novos preços em massa.
+              Edite margem ou preço — o sistema recalcula taxa ML, frete, impostos e lucro na hora.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button 
-                size="lg" 
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-lg font-semibold group"
-                onClick={() => document.getElementById('waitlist-form')?.scrollIntoView({ behavior: 'smooth' })}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button
+                size="lg"
+                className="brand-gradient hover:opacity-90 text-white rounded-lg font-semibold group h-12 px-8"
+                onClick={() =>
+                  document
+                    .getElementById("waitlist-form")
+                    ?.scrollIntoView({ behavior: "smooth" })
+                }
               >
-                Entrar na lista de espera
+                Criar conta grátis
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition" />
               </Button>
-              <Button 
-                size="lg" 
-                variant="outline" 
-                className="border-2 border-gray-300 hover:border-gray-400 rounded-lg font-semibold"
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-border bg-card/50 hover:bg-card text-foreground rounded-lg font-semibold h-12 px-8"
+                onClick={() =>
+                  document
+                    .getElementById("calculadora")
+                    ?.scrollIntoView({ behavior: "smooth" })
+                }
               >
-                Saber mais
+                Ver a calculadora
               </Button>
             </div>
+            <p className="mt-6 text-sm text-muted-foreground">
+              Simular não altera o Mercado Livre — você decide quando aplicar.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* PROBLEMA SECTION */}
-      <section id="problema" className="py-20 md:py-32 bg-gray-50">
+      {/* BADGES */}
+      <section className="py-8 border-y border-border bg-card/30">
         <div className="container">
-          <div className="max-w-3xl mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Os desafios que você enfrenta todo dia
+          <div className="flex flex-wrap justify-center gap-3">
+            {badges.map((badge) => (
+              <span
+                key={badge}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs md:text-sm bg-card border border-border text-muted-foreground"
+              >
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#ff8a00] shrink-0" />
+                {badge}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PROBLEMA */}
+      <section id="problema" className="py-20 md:py-28">
+        <div className="container">
+          <div className="max-w-3xl mb-14">
+            <p className="text-sm font-medium text-[#2b80ff] mb-3 uppercase tracking-wider">
+              O problema
+            </p>
+            <h2 className="text-3xl md:text-5xl font-bold mb-6">
+              Preço que parece bom na vitrine, margem negativa na prática
             </h2>
-            <p className="text-lg text-gray-600">
-              Gerenciar preços manualmente é demorado, arriscado e impede você de escalar. Veja os principais problemas:
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              Vendedores ML costumam precificar no &ldquo;feeling&rdquo; ou em planilhas que ignoram taxa por categoria,
+              frete do Mercado Líder, impostos e despesas fixas. O Escala Preço inverte isso: você trabalha com
+              margem líquida real e o sistema encontra o preço certo.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-3 gap-6">
             {[
               {
-                icon: Zap,
-                title: "Precificação manual e demorada",
-                desc: "Atualizar centenas de anúncios manualmente consome horas do seu tempo e está sujeito a erros."
+                title: "Planilha e feeling",
+                desc: "Precificação manual que ignora taxa ML por categoria, frete e impostos.",
               },
               {
-                icon: Lock,
-                title: "Falta de controle de margem",
-                desc: "Sem visibilidade clara de margens, você corre o risco de vender com prejuízo sem perceber."
+                title: "Margem ilusória",
+                desc: "Preço menos custo não mostra o que realmente sobra no bolso.",
               },
               {
-                icon: TrendingUp,
-                title: "Dificuldade em gerenciar centenas de anúncios",
-                desc: "Quanto mais você cresce, mais complexo fica manter o controle de toda a operação."
+                title: "Tempo perdido",
+                desc: "Horas criando promoções, atacado e atualizando anúncio por anúncio.",
               },
-              {
-                icon: Eye,
-                title: "Perda de competitividade",
-                desc: "Sem acompanhar preços de concorrentes em tempo real, você perde vendas ou margem."
-              }
-            ].map((item, idx) => (
-              <div key={idx} className="bg-white p-8 rounded-xl border border-gray-200 hover:border-purple-300 hover:shadow-lg transition-all duration-300">
-                <item.icon className="w-12 h-12 text-blue-600 mb-4" />
-                <h3 className="text-xl font-bold text-gray-900 mb-3">{item.title}</h3>
-                <p className="text-gray-600">{item.desc}</p>
+            ].map((item) => (
+              <div
+                key={item.title}
+                className="p-6 rounded-xl bg-card border border-border hover:border-[#2b80ff]/30 transition-colors"
+              >
+                <h3 className="text-lg font-bold mb-2">{item.title}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* SOLUÇÃO SECTION */}
-      <section id="solucao" className="py-20 md:py-32 bg-white">
+      {/* SOLUÇÃO — CALCULADORA */}
+      <section id="calculadora" className="py-20 md:py-28 bg-card/40 border-y border-border">
         <div className="container">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
             <div>
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-                A solução que você precisava
-              </h2>
-              <p className="text-lg text-gray-600 mb-8">
-                O Escala Preço foi criado para quem já vende no Mercado Livre e precisa escalar sem perder controle. Desenvolvido com base na rotina de quem vive o Mercado Livre todos os dias.
+              <p className="text-sm font-medium text-[#ff8a00] mb-3 uppercase tracking-wider">
+                O carro-chefe
               </p>
-              <ul className="space-y-4">
-                {[
-                  "Automatização completa de precificação",
-                  "Controle total de margens e lucro",
-                  "Integração nativa com Mercado Livre",
-                  "Dashboard intuitivo e poderoso"
-                ].map((item, idx) => (
-                  <li key={idx} className="flex items-center gap-3">
-                    <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0" />
-                    <span className="text-gray-700 font-medium">{item}</span>
-                  </li>
-                ))}
-              </ul>
+              <h2 className="text-3xl md:text-5xl font-bold mb-6">
+                Calculadora de Preços
+              </h2>
+              <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
+                O centro do Escala Preço. Em uma única tabela, você vê todo o catálogo sincronizado do Mercado Livre
+                e simula novos preços em massa: edita margem ou preço, o sistema recalcula taxa ML, frete, impostos
+                e lucro na hora.
+              </p>
+              <p className="text-sm text-muted-foreground border-l-2 border-[#2b80ff] pl-4">
+                <strong className="text-foreground">Importante:</strong> simular aqui não altera o Mercado Livre.
+                Você decide quando aplicar com <em>Atualizar preço ML</em> ou <em>Criar campanha ML</em>.
+              </p>
             </div>
-            <div className="relative">
-              <img 
-                src="https://d2xsxph8kpxj0f.cloudfront.net/310419663031980743/88qXHLTs8SUnLzsyBRLKno/features-illustration-i6psBPY7LQof8z9FniZQDn.webp"
-                alt="Escala Preço - Ilustração de Automação"
-                className="w-full h-auto rounded-2xl"
-              />
+
+            <div className="grid grid-cols-2 gap-4">
+              {featureCards.map((card) => (
+                <div
+                  key={card.title}
+                  className="p-5 rounded-xl bg-background border border-border hover:border-[#ff8a00]/30 transition-colors"
+                >
+                  <card.icon className="w-8 h-8 text-[#2b80ff] mb-3" />
+                  <h3 className="font-bold text-sm mb-2">{card.title}</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{card.desc}</p>
+                </div>
+              ))}
             </div>
+          </div>
+
+          {/* Screenshot da calculadora */}
+          <div className="rounded-xl border border-border bg-background overflow-hidden glow-blue">
+            <img
+              src="/screenshots/calculadora-precos.png"
+              alt="Tela da Calculadora de Preços do Escala Preço — tabela com margem, preço calculado, lucro, taxa ML e frete"
+              className="w-full h-auto"
+              loading="lazy"
+            />
+          </div>
+
+          <div className="mt-8 grid sm:grid-cols-3 lg:grid-cols-5 gap-3">
+            {tableColumns.map((col) => (
+              <div key={col.label} className="p-3 rounded-lg bg-card border border-border">
+                <div className="text-xs font-semibold text-foreground mb-1">{col.label}</div>
+                <div className="text-xs text-muted-foreground">{col.desc}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* BENEFÍCIOS SECTION */}
-      <section id="beneficios" className="py-20 md:py-32 bg-gradient-to-b from-blue-50 to-purple-50">
+      {/* COMO FUNCIONA */}
+      <section id="como-funciona" className="py-20 md:py-28">
         <div className="container">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Benefícios que transformam seu negócio
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <p className="text-sm font-medium text-[#2b80ff] mb-3 uppercase tracking-wider">
+              Como funciona
+            </p>
+            <h2 className="text-3xl md:text-5xl font-bold mb-4">
+              Do catálogo ao ML em 4 passos
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Cada funcionalidade foi pensada para maximizar seus resultados e proteger sua margem
+            <p className="text-muted-foreground">
+              O menu libera progressivamente para garantir que a calculadora já chegue com catálogo e custos.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                icon: Lock,
-                title: "Evite prejuízos automaticamente",
-                desc: "Proteção inteligente de margem com regras customizáveis"
-              },
-              {
-                icon: TrendingUp,
-                title: "Aumente sua margem com inteligência",
-                desc: "Análise de competitividade e otimização de preços"
-              },
-              {
-                icon: Zap,
-                title: "Atualize preços em massa",
-                desc: "Sincronização instantânea com Mercado Livre"
-              },
-              {
-                icon: Eye,
-                title: "Tenha controle total",
-                desc: "Dashboard com visão geral de toda operação"
-              }
-            ].map((item, idx) => (
-              <div 
-                key={idx} 
-                className="bg-white/60 backdrop-blur-md p-8 rounded-xl border border-white/40 hover:border-purple-300 hover:bg-white/80 transition-all duration-300 group"
-              >
-                <item.icon className="w-10 h-10 text-purple-600 mb-4 group-hover:scale-110 transition-transform" />
-                <h3 className="text-lg font-bold text-gray-900 mb-2">{item.title}</h3>
-                <p className="text-gray-600 text-sm">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FUNCIONALIDADES SECTION */}
-      <section id="funcionalidades" className="py-20 md:py-32 bg-white">
-        <div className="container">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-16 text-center">
-                Funcionalidades poderosas
-              </h2>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            {[
-              {
-                icon: BarChart3,
-                title: "Integração com Mercado Livre",
-                desc: "Conexão segura e automática com sua conta. Sem complicações."
-              },
-              {
-                icon: Zap,
-                title: "Sincronização de anúncios",
-                desc: "Todos os seus anúncios sincronizados em tempo real."
-              },
-              {
-                icon: Upload,
-                title: "Editor de preço de atacado",
-                desc: "Crie e gerencie preços de atacado com facilidade."
-              },
-              {
-                icon: Eye,
-                title: "Simulação de lucro e recebíveis",
-                desc: "Veja exatamente quanto você vai ganhar antes de confirmar."
-              },
-              {
-                icon: TrendingUp,
-                title: "Análise de competitividade",
-                desc: "Acompanhe preços de concorrentes e ajuste estrategicamente."
-              },
-              {
-                icon: Lightbulb,
-                title: "Campanhas de preço",
-                desc: "Crie promoções inteligentes com regras automáticas."
-              },
-              {
-                icon: Upload,
-                title: "Importação/exportação em massa",
-                desc: "Trabalhe com CSV para máxima flexibilidade."
-              },
-              {
-                icon: BarChart3,
-                title: "Dashboard com visão geral",
-                desc: "Todos os dados importantes em um único lugar."
-              }
-            ].map((item, idx) => (
-              <div key={idx} className="flex gap-4 p-6 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                <item.icon className="w-8 h-8 text-blue-600 flex-shrink-0 mt-1" />
-                <div>
-                  <h3 className="font-bold text-gray-900 mb-2">{item.title}</h3>
-                  <p className="text-gray-600 text-sm">{item.desc}</p>
+            {steps.map((step, idx) => (
+              <div key={step.num} className="relative">
+                {idx < steps.length - 1 && (
+                  <ChevronRight className="hidden lg:block absolute -right-3 top-8 w-6 h-6 text-border z-10" />
+                )}
+                <div className="h-full p-6 rounded-xl bg-card border border-border">
+                  <div className="text-3xl font-bold brand-gradient-text mb-4">{step.num}</div>
+                  <h3 className="font-bold mb-2">{step.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{step.desc}</p>
                 </div>
               </div>
             ))}
@@ -322,91 +464,233 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PROVA/AUTORIDADE SECTION */}
-      <section className="py-20 md:py-32 bg-gradient-to-r from-blue-600 to-purple-600">
+      {/* RECURSOS */}
+      <section id="recursos" className="py-20 md:py-28 bg-card/40 border-y border-border">
         <div className="container">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Feito por quem entende do negócio
-            </h2>
-            <p className="text-xl text-blue-50 mb-8 leading-relaxed">
-              Desenvolvido com base na rotina de quem vive o Mercado Livre todos os dias. Cada funcionalidade foi pensada para resolver problemas reais de vendedores como você.
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <p className="text-sm font-medium text-[#ff8a00] mb-3 uppercase tracking-wider">
+              Diferenciais
             </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <div className="text-white">
-                <div className="text-3xl font-bold">500+</div>
-                <div className="text-blue-50">Anúncios gerenciados</div>
+            <h2 className="text-3xl md:text-5xl font-bold mb-4">
+              Recursos da calculadora
+            </h2>
+            <p className="text-muted-foreground">
+              Tudo em uma visão operacional: imagem, MLB, título, SKU e link para o anúncio.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-14">
+            {differentials.map((item) => (
+              <div
+                key={item.title}
+                className="p-6 rounded-xl bg-background border border-border hover:border-[#2b80ff]/30 transition-colors group"
+              >
+                <item.icon className="w-8 h-8 text-[#2b80ff] mb-4 group-hover:text-[#ff8a00] transition-colors" />
+                <h3 className="font-bold mb-2">{item.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
               </div>
-              <div className="text-white">
-                <div className="text-3xl font-bold">10x</div>
-                <div className="text-blue-50">Mais rápido que manual</div>
+            ))}
+          </div>
+
+          {/* Ações em massa */}
+          <div className="rounded-xl border border-border bg-background p-8">
+            <h3 className="text-xl font-bold mb-6">Ações em massa e publicação</h3>
+            <div className="grid md:grid-cols-2 gap-8">
+              <div>
+                <h4 className="text-sm font-semibold text-[#2b80ff] mb-4 uppercase tracking-wider">
+                  Simulação em lote
+                </h4>
+                <ul className="space-y-3">
+                  {[
+                    "Definir desconto % (5% a 80%)",
+                    "Aplicar margem líquida % nos selecionados",
+                    "Restaurar preço calculado ao preço atual do ML",
+                    "Recalcular taxa e frete para o catálogo filtrado",
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-3 text-sm text-muted-foreground">
+                      <RefreshCw className="w-4 h-4 text-[#ff8a00] shrink-0 mt-0.5" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <div className="text-white">
-                <div className="text-3xl font-bold">100%</div>
-                <div className="text-blue-50">Seguro e confiável</div>
+              <div>
+                <h4 className="text-sm font-semibold text-[#ff8a00] mb-4 uppercase tracking-wider">
+                  Do simulador ao ML em um clique
+                </h4>
+                <ul className="space-y-3">
+                  {[
+                    "Atualizar preço ML — envia o Preço Calculado como novo preço",
+                    "Criar campanha ML — desconto mínimo de 5%, respeitando PMA",
+                    "Competitividade integrada — referências de preço do ML na mesma tabela",
+                    "Import/export CSV com preview e confirmação em lote",
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-3 text-sm text-muted-foreground">
+                      <Upload className="w-4 h-4 text-[#2b80ff] shrink-0 mt-0.5" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* CTA FINAL SECTION */}
-      <section id="waitlist-form" className="py-20 md:py-32 bg-white">
+      {/* ECOSSISTEMA */}
+      <section id="ecossistema" className="py-20 md:py-28">
+        <div className="container">
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <p className="text-sm font-medium text-[#2b80ff] mb-3 uppercase tracking-wider">
+              Ecossistema
+            </p>
+            <h2 className="text-3xl md:text-5xl font-bold mb-4">
+              Tudo que alimenta sua precificação
+            </h2>
+            <p className="text-muted-foreground">
+              A calculadora funciona melhor com o restante do produto — do catálogo ML aos custos, vendas e dashboard.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {ecosystem.map((module) => (
+              <div
+                key={module.title}
+                className="p-6 rounded-xl bg-card border border-border hover:border-[#ff8a00]/20 transition-colors"
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2 rounded-lg bg-[#2b80ff]/10">
+                    <module.icon className="w-5 h-5 text-[#2b80ff]" />
+                  </div>
+                  <h3 className="font-bold">{module.title}</h3>
+                </div>
+                <ul className="space-y-2">
+                  {module.items.map((item) => (
+                    <li
+                      key={item}
+                      className="flex items-start gap-2 text-sm text-muted-foreground"
+                    >
+                      <CheckCircle2 className="w-4 h-4 text-[#ff8a00] shrink-0 mt-0.5" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PARA QUEM É */}
+      <section id="para-quem" className="py-20 md:py-28 bg-card/40 border-y border-border">
+        <div className="container">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <p className="text-sm font-medium text-[#ff8a00] mb-3 uppercase tracking-wider">
+                Para quem é
+              </p>
+              <h2 className="text-3xl md:text-5xl font-bold mb-6">
+                Vendedores ML com catálogo médio ou grande
+              </h2>
+              <p className="text-muted-foreground mb-8 leading-relaxed">
+                Se você gerencia dezenas ou centenas de anúncios e precisa de margem real — não estimativa —
+                o Escala Preço foi feito para a sua rotina.
+              </p>
+              <ul className="space-y-4">
+                {personas.map((item) => (
+                  <li key={item} className="flex items-start gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-[#2b80ff] shrink-0 mt-0.5" />
+                    <span className="text-muted-foreground">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="p-8 rounded-2xl brand-gradient text-white">
+              <h3 className="text-2xl font-bold mb-4">Visão gerencial no Dashboard</h3>
+              <p className="text-white/80 mb-6 leading-relaxed">
+                Margem média 30d, anúncios em risco, % competitivos e cobertura de custos.
+                Alertas clicáveis: sem custo, margem negativa, acima do mercado, sem atacado, sem vínculo SKU.
+              </p>
+              <div className="grid grid-cols-3 gap-4">
+                {[
+                  { value: "30d", label: "Margem média" },
+                  { value: "100%", label: "Cobertura custos" },
+                  { value: "Live", label: "Alertas ativos" },
+                ].map((stat) => (
+                  <div key={stat.label} className="text-center p-3 rounded-lg bg-white/10">
+                    <div className="text-xl font-bold">{stat.value}</div>
+                    <div className="text-xs text-white/70">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA FINAL */}
+      <section id="waitlist-form" className="py-20 md:py-28 section-glow">
         <div className="container">
           <div className="max-w-2xl mx-auto">
-            <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-12 rounded-2xl border border-purple-200">
-              <h2 className="text-4xl font-bold text-gray-900 mb-4 text-center">
-                Entre na lista de espera
+            <div className="p-10 md:p-12 rounded-2xl bg-card border border-border">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">
+                Comece a precificar com margem real
               </h2>
-              <p className="text-lg text-gray-600 text-center mb-8">
-                Seja um dos primeiros a escalar seus resultados com controle total. Ganhe acesso antecipado e preço especial de lançamento.
+              <p className="text-muted-foreground text-center mb-8 leading-relaxed">
+                Cadastre-se para criar sua conta ou agendar uma demonstração.
+                Conecte o ML, cadastre custos e simule preços em massa — sem alterar nada até você confirmar.
               </p>
 
               <form onSubmit={handleWaitlistSubmit} className="space-y-4">
-                <div>
-                  <Input
-                    type="text"
-                    name="nome"
-                    autoComplete="name"
-                    placeholder="Nome completo"
-                    value={nome}
-                    onChange={(e) => setNome(e.target.value)}
-                    className="h-12 rounded-lg border-2 border-gray-300 focus:border-purple-600 focus:ring-0 text-base"
-                  />
-                </div>
-                <div>
-                  <Input
-                    type="email"
-                    name="email"
-                    autoComplete="email"
-                    placeholder="seu@email.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="h-12 rounded-lg border-2 border-gray-300 focus:border-purple-600 focus:ring-0 text-base"
-                  />
-                </div>
-                <div>
-                  <Input
-                    type="tel"
-                    name="telefone"
-                    autoComplete="tel"
-                    placeholder="Telefone com DDD (ex.: 41999998888)"
-                    value={telefone}
-                    onChange={(e) => setTelefone(e.target.value)}
-                    className="h-12 rounded-lg border-2 border-gray-300 focus:border-purple-600 focus:ring-0 text-base"
-                  />
-                </div>
+                <Input
+                  type="text"
+                  name="nome"
+                  autoComplete="name"
+                  placeholder="Nome completo"
+                  value={nome}
+                  onChange={(e) => setNome(e.target.value)}
+                  className="h-12 rounded-lg border-border bg-background focus:border-[#2b80ff] focus:ring-[#2b80ff]/20 text-base"
+                />
+                <Input
+                  type="email"
+                  name="email"
+                  autoComplete="email"
+                  placeholder="seu@email.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="h-12 rounded-lg border-border bg-background focus:border-[#2b80ff] focus:ring-[#2b80ff]/20 text-base"
+                />
+                <Input
+                  type="tel"
+                  name="telefone"
+                  autoComplete="tel"
+                  placeholder="Telefone com DDD (ex.: 41999998888)"
+                  value={telefone}
+                  onChange={(e) => setTelefone(e.target.value)}
+                  className="h-12 rounded-lg border-border bg-background focus:border-[#2b80ff] focus:ring-[#2b80ff]/20 text-base"
+                />
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg text-base"
+                  className="w-full h-12 brand-gradient hover:opacity-90 text-white font-semibold rounded-lg text-base"
                 >
-                  {isSubmitting ? "Adicionando..." : "Quero entrar na lista"}
+                  {isSubmitting ? "Enviando..." : "Criar conta / Agendar demo"}
                 </Button>
-                <p className="text-sm text-gray-500 text-center">
+                <p className="text-sm text-muted-foreground text-center">
                   Sem spam. Apenas atualizações importantes sobre o Escala Preço.
                 </p>
               </form>
+
+              <div className="mt-8 pt-8 border-t border-border text-center">
+                <p className="text-sm text-muted-foreground mb-3">Já tem conta?</p>
+                <a
+                  href="https://app.escalapreco.com.br/auth/login"
+                  className="text-[#2b80ff] hover:text-[#ff8a00] font-medium transition text-sm"
+                >
+                  Entrar no app →
+                </a>
+              </div>
             </div>
           </div>
         </div>
